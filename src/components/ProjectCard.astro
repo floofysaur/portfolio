@@ -3,7 +3,7 @@ import type { Project } from '../data/projects';
 interface Props { project: Project }
 const { project } = Astro.props;
 ---
-<a class="card" href={project.href} data-cursor="link" style={`--grow:${project.width}`}>
+<a class="card" href={project.href} data-cursor={project.href.startsWith("http") ? "link" : undefined} style={`--grow:${project.width}`}>
   <div class="media">
     <img src={project.image} alt="" loading="lazy" decoding="async" />
   </div>
