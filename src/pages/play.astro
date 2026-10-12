@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import Overlay from '../components/Overlay.astro';
+import GalleryOverlay from '../components/GalleryOverlay.astro';
+
+// Positions on a 746 x 406 canvas, copied from the live site.
+const books = [
+  { src: 'book-sketchbook.png', label: 'Sketchbook', gallery: 'sketchbook', x: 378, y: 43, w: 64, h: 357, rot: 0, s: 1.05 },
+  { src: 'book-photos.png', label: 'Photos', gallery: 'photography', x: 437, y: 84, w: 74, h: 315, rot: 0, s: 1.05 },
+  { src: 'book-art.png', label: 'Art + Illustration', gallery: 'illustration', x: 506, y: 0, w: 51, h: 406, rot: 0, s: 1.05 },
+  { src: 'book-misc.png', label: 'Miscellany', gallery: 'miscellany', x: 593, y: 52.5, w: 57, h: 347, rot: -15, s: 1.05 },
+  { src: 'book-graphic.png', label: 'Graphic Design', gallery: 'graphic', x: 647, y: 68.5, w: 57, h: 333, rot: -15, s: 1.1 },
+] as const;
+const pos = (b: { x: number; y: number; w: number; h: number }) =>
+  `left:calc(${b.x} * var(--u));top:calc(${b.y} * var(--u));width:calc(${b.w} * var(--u));height:calc(${b.h} * var(--u))`;
+---
+<Base title="Aricia's World">
+  <section class="play">
+    <div class="shelf">
+      <button type="button" class="piece totoro" data-overlay-open="ov-bedroom" aria-label="My childhood bedroom"
+              style={pos({ x: 0, y: 0, w: 314, h: 394 })}>
+        <img src="/images/play/totoro.png" alt="" />
+      </button>
+      {books.map((b) => (
+        <button type="button" class="piece book" data-overlay-open={`ov-${b.gallery}`} aria-label={`Open ${b.label}`}
+                style={`${pos(b)};--rot:${b.rot}deg;--s:${b.s}`}>
+          <img src={`/images/play/${b.src}`} alt="" />
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <Fragment slot="overlays">
+    {books.map((b) => <GalleryOverlay id={`ov-${b.gallery}`} gallery={b.gallery} />)}
+    <Overlay id="ov-bedroom" label="My childhood bedroom" fit={[602, 431]}>
+      <div class="ov-abs photo-frame thin" style="left:11.5px;top:17px;width:543px;height:362px">
+        <img src="/images/play/childhood-bedroom.webp" alt="My childhood bedroom" style="object-fit:cover" />
+      </div>
+      <div class="note ov-abs" style="left:267px;top:350px;width:max-content">
+        <p>My childhood bedroom in Markham :)</p>
+      </div>
+    </Overlay>
+  </Fragment>
+</Base>
+
+<style>
+  .play { padding: 125px 20px 71px; }
+  .shelf {
+    position: relative;
+    container-type: inline-size;
+    width: min(746px, 100%);
+    margin: 0 auto;
+    aspect-ratio: 746 / 406;
+    --u: calc(100cqw / 746);
+  }
+  .piece {
+    position: absolute;
+    padding: 0;
+    border: 0;
+    background: none;
+    transition: transform var(--dur) var(--ease);
+  }
+  .piece img { display: block; width: 100%; height: 100%; }
+  .piece:focus-visible { outline: 2px solid #000; outline-offset: 3px; border-radius: 4px; }
+  .book { transform: rotate(var(--rot)); }
+  @media (hover: hover) {
+    .book:hover { transform: rotate(var(--rot)) translateY(calc(-40 * var(--u))) scale(var(--s)); }
+    .totoro:hover { transform: scale(1.1); }
+  }
+  @media (max-width: 809px) {
+    .play { padding: 80px 20px 40px; }
+  }
+</style>

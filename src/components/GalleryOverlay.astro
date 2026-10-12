@@ -1,0 +1,21 @@
+---
+import Overlay from './Overlay.astro';
+import GalleryNode from './GalleryNode.astro';
+import galleries from '../data/galleries.json';
+
+interface Props {
+  id: string;
+  gallery: keyof typeof galleries;
+  backdrop?: 'light' | 'gallery';
+}
+const { id, gallery, backdrop = 'gallery' } = Astro.props;
+const g = galleries[gallery];
+---
+<Overlay id={id} label={g.title} backdrop={backdrop}>
+  <div class="gallery-panel">
+    <h2 class="gallery-title">{g.title}</h2>
+    <div class="gallery-body">
+      <GalleryNode node={g.content as any} />
+    </div>
+  </div>
+</Overlay>

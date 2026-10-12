@@ -1,0 +1,211 @@
+---
+import Base from './Base.astro';
+import CsNode from '../components/CsNode.astro';
+
+interface Props { data: any; passcodeHash?: string }
+const { data, passcodeHash } = Astro.props;
+const gated = passcodeHash !== undefined;
+// Column geometry copied from the live page (sidebar, gap, main column)
+const L = data.layout ?? { side: [244, 176], main: [449, 819], head: [449, 819] };
+const sideW = L.side[1];
+const gap = L.main[0] - (L.side[0] + L.side[1]);
+const mainW = L.main[1];
+const headOffset = L.head[0] - L.main[0];
+const headW = L.head[1];
+const vars = `--side-w:${sideW}px;--gap:${gap}px;--main-w:${mainW}px;--head-x:${headOffset}px;--head-w:${headW}px;--accent:${data.accent ?? '#000'}`;
+---
+<Base title={`${data.title} · Aricia Chan`}>
+  {gated && (
+    <section class="gate" data-gate={data.slug} data-hash={passcodeHash}>
+      <form class="gate-box">
+        <h1>PRIVATE CONTENT</h1>
+        <p>Enter passcode to continue</p>
+        <input type="password" name="code" aria-label="Passcode" autocomplete="off" required />
+        <button type="submit">Unlock</button>
+        <p class="gate-error" role="alert" hidden>That's not quite right, try again.</p>
+        <a href="/">Return to Projects</a>
+      </form>
+    </section>
+  )}
+  <div class="cs-page" style={vars} hidden={gated ? true : undefined}>
+    {data.banner && (
+      <div class="cs-banner" style={`height:${data.banner.h}px`}>
+        <img src={data.banner.src} alt="" style={`object-position:${data.banner.pos}`} fetchpriority="high" />
+      </div>
+    )}
+
+    <div class="cs-grid cs-head">
+      <div class="cs-side" aria-hidden="true"></div>
+      <div class="cs-main"><div class="cs-title"><CsNode node={data.head} /></div></div>
+    </div>
+
+    <div class="cs-grid">
+      <aside class="cs-side">
+        <nav class="cs-toc" aria-label="On this page">
+          {data.toc.map((l: any) =>
+            l.href.startsWith('#')
+              ? <a href={l.href} data-toc={l.href.slice(1)}>{l.text}</a>
+              : <a href={l.href} class="toc-home"><span class="toc-arrow" aria-hidden="true">←</span>{l.text.replace(/^←\s*/, '')}</a>
+          )}
+        </nav>
+      </aside>
+      <article class="cs-main">
+        <CsNode node={data.content} />
+      </article>
+    </div>
+  </div>
+</Base>
+
+<script>
+  // TOC: smooth-scroll to sections and highlight the one in view
+  const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>('.cs-toc a[data-toc]')];
+  const targets = tocLinks.map((a) => document.getElementById(a.dataset.toc!));
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  tocLinks.forEach((a, i) => a.addEventListener('click', (e) => {
+    const t = targets[i];
+    if (!t) return;
+    e.preventDefault();
+    // measure layout position (offsetTop ignores the scroll-reveal transform)
+    let y = 0;
+    for (let el: HTMLElement | null = t; el; el = el.offsetParent as HTMLElement | null) y += el.offsetTop;
+    scrollTo({ top: Math.max(0, y - 24), behavior: reduce ? 'auto' : 'smooth' });
+    history.replaceState(null, '', '#' + t.id);
+  }));
+  let ticking = false;
+  const spy = () => {
+    ticking = false;
+    const line = Math.min(160, innerHeight * 0.3);
+    let cur = -1;
+    targets.forEach((t, i) => { if (t && t.getBoundingClientRect().top <= line) cur = i; });
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) cur = targets.length - 1;
+    tocLinks.forEach((a, i) => {
+      a.classList.toggle('active', i === cur);
+      if (i === cur) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+    });
+  };
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(spy); } };
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll);
+  spy();
+
+  // Light passcode gate (see src/data/private.ts)
+  const gate = document.querySelector<HTMLElement>('[data-gate]');
+  if (gate) {
+    const page = document.querySelector<HTMLElement>('.cs-page')!;
+    const key = `unlocked:${gate.dataset.gate}`;
+    const unlock = () => { gate.remove(); page.hidden = false; dispatchEvent(new Event('scroll')); };
+    try { if (sessionStorage.getItem(key) === gate.dataset.hash && gate.dataset.hash) unlock(); } catch {}
+    const form = gate.querySelector('form')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const code = (form.elements.namedItem('code') as HTMLInputElement).value;
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(code));
+      const hex = [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+      if (gate.dataset.hash && hex === gate.dataset.hash) {
+        try { sessionStorage.setItem(key, hex); } catch {}
+        unlock();
+      } else {
+        form.querySelector<HTMLElement>('.gate-error')!.hidden = false;
+      }
+    });
+  }
+</script>
+
+<style>
+  .gate { min-height: calc(100vh - 67px - 276px); display: grid; place-items: center; padding: 60px 20px; }
+  .gate-box { width: min(400px, 100%); display: flex; flex-direction: column; align-items: center; gap: 0; text-align: center; }
+  .gate h1 { font-family: var(--serif); font-size: 24px; line-height: 30px; font-weight: 500; }
+  .gate p { font-family: var(--mono); font-size: 14px; line-height: 21px; font-weight: 500; color: rgb(96, 93, 100); margin-top: 4px; }
+  .gate input {
+    margin-top: 24px; width: 100%; height: 45px; border-radius: 8px; border: 1px solid #e5e5e5;
+    background: #fff; padding: 0 14px; font: 16px var(--sans);
+  }
+  .gate button {
+    margin-top: 12px; width: 100%; height: 45px; border-radius: 8px; border: 0;
+    background: #000; color: #fff; font: 500 16px var(--sans);
+  }
+  .gate .gate-error { color: #c0392b; font-weight: 400; margin-top: 12px; }
+  .gate a { margin-top: 40px; font-family: var(--mono); font-size: 14px; color: #000; }
+  .gate a:hover { text-decoration: underline; }
+
+  /* Case studies sit on white, like the Framer pages */
+  :global(body):has(.cs-page) { background: #fff; }
+  .cs-banner { width: 100%; overflow: hidden; }
+  .cs-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cs-grid {
+    max-width: calc(var(--side-w) + var(--gap) + var(--main-w) + 40px);
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--gap);
+    padding: 0 20px;
+  }
+  .cs-title { margin-left: var(--head-x); max-width: var(--head-w); }
+  .cs-head { padding-top: 32px; }
+  .cs-side { flex: 0 0 var(--side-w); }
+  aside.cs-side { position: sticky; top: 0; z-index: 1; }
+  .cs-main { flex: 0 1 var(--main-w); min-width: 0; }
+  .cs-toc {
+    width: 150px;
+    margin: 0 auto;
+    padding: 50px 0 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .cs-toc a {
+    position: relative;
+    font-family: var(--ui);
+    font-size: 14px;
+    line-height: 22.4px;
+    letter-spacing: -0.28px;
+    color: #b8b8b8;
+    transition: color 0.2s ease;
+  }
+  /* hanging arrow: sits in the margin so "Home" lines up with the other items */
+  .cs-toc .toc-home { margin-bottom: 15px; }
+  .cs-toc .toc-arrow { position: absolute; right: 100%; padding-right: 6px; }
+  /* hover / press: the page's heading colour at lower opacity */
+  .cs-toc a:hover, .cs-toc a:active { color: color-mix(in srgb, var(--accent) 60%, transparent); }
+  .cs-toc a.active { color: var(--accent); }
+  .cs-main :global([id]) { scroll-margin-top: 24px; }
+
+  /* Rich text inside the case study */
+  .cs-main :global(.cs-text p + p) { margin-top: 0; }
+  .cs-main :global(.cs-text ul), .cs-main :global(.cs-text ol) { padding-left: 0; list-style: none; }
+  .cs-main :global(.cs-text ol) { counter-reset: item; }
+  .cs-main :global(.cs-text li) { position: relative; padding-left: 17px; }
+  .cs-main :global(.cs-text ol > li) { counter-increment: item; padding-left: 21px; }
+  .cs-main :global(.cs-text ul > li::before) { content: '•'; position: absolute; left: 0; }
+  .cs-main :global(.cs-text ol > li::before) { content: counter(item) '.'; position: absolute; left: 0; }
+  .cs-main :global(.cs-text mark) { background: none; color: inherit; }
+  .cs-main :global(.cs-text a) { text-decoration: underline; }
+  .cs-main :global(.cs-text [data-align='center']) { text-align: center; }
+  .cs-main :global(.cs-text [data-align='right']) { text-align: right; }
+  .cs-main :global(.cs-media) { display: block; max-width: 100%; }
+  .cs-main :global(a.cs-box) { transition: opacity 0.2s ease; }
+  .cs-main :global(a.cs-box:not(.cs-btn):hover) { opacity: 0.75; }
+  /* outlined link buttons (Framer "button" component) */
+  .cs-main :global(.cs-btn) { position: relative; overflow: visible !important; width: fit-content !important; max-width: 100%; flex: none !important; transition: background-color 0.2s ease; }
+  .cs-main :global(.cs-btn)::after { content: ''; position: absolute; inset: 0; border: 1px solid var(--btn-bd); border-radius: inherit; pointer-events: none; }
+  .cs-main :global(.cs-btn p) { white-space: nowrap; color: var(--btn-fg) !important; transition: color 0.2s ease; }
+  .cs-main :global(.cs-btn:hover) { background-color: var(--btn-hbg); }
+  .cs-main :global(.cs-btn:hover p) { color: var(--btn-hfg) !important; }
+
+  @media (max-width: 1199px) {
+    .cs-side { display: none; }
+    .cs-title { margin-left: 0; }
+    .cs-banner { height: 360px !important; }
+  }
+  @media (max-width: 809px) {
+    .cs-banner { height: 220px !important; }
+    .cs-grid { padding: 0 20px; }
+    .cs-main :global(.cs-stack) { flex-direction: column !important; align-items: stretch !important; }
+    .cs-main :global(.cs-stack > *) { flex: none !important; width: 100% !important; max-width: 100% !important; }
+    /* rows of single-line text (e.g. date | tools) wrap instead of overflowing */
+    .cs-main :global(.cs-box:has(> .cs-text):not(:has(> :not(.cs-text)))) { flex-wrap: wrap !important; row-gap: 0 !important; }
+    .cs-main :global(.cs-text) { max-width: 100%; }
+  }
+</style>

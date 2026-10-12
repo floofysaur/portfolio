@@ -1,0 +1,99 @@
+---
+const links = [
+  { href: 'mailto:ariciac@andrew.cmu.edu', label: 'Email' },
+  { href: 'https://www.linkedin.com/in/ariciachan/', label: 'LinkedIn' },
+  { href: 'https://x.com/floofysaur', label: 'Twitter / X' },
+];
+---
+<footer class="footer">
+  <div class="left">
+    <p class="thanks">Thanks for stopping by!</p>
+    <ul>
+      {links.map((l) => (
+        <li><a href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener">{l.label}</a></li>
+      ))}
+    </ul>
+  </div>
+  <div class="tea">
+    <p class="t-aside" aria-hidden="true">Care for some tea?</p>
+    <!-- Hover (or press and hold) to pour -->
+    <button type="button" class="pour" data-tea aria-label="Pour some tea">
+      <img class="cup" src="/images/footer/teacup.png" alt="" width="56" height="41" loading="lazy" />
+      <img class="cup-full" src="/images/footer/teacup-full.png" alt="" width="55" height="40" loading="lazy" />
+      <img class="pot" src="/images/footer/teapot.png" alt="" width="126" height="89" loading="lazy" />
+    </button>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    height: 276px;
+    padding: 0 113px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .left { padding-top: 117px; }
+  .thanks {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 36px;
+    line-height: 43.2px;
+    height: 36px;
+  }
+  ul { list-style: none; display: flex; gap: 30px; margin-top: 21px; }
+  a {
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 17px;
+    transition: color 0.2s ease;
+  }
+  a:hover { color: var(--ink-hover); }
+
+  .tea { position: relative; width: 279px; height: 94px; margin-top: 100px; }
+  .tea p { position: absolute; left: 0; top: 24px; white-space: nowrap; }
+  .pour {
+    position: absolute;
+    left: 94px;
+    top: 0;
+    width: 185px;
+    height: 94px;
+    padding: 0;
+    border: 0;
+    background: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  .pour img { position: absolute; pointer-events: none; }
+  .cup { left: 0; top: 53px; width: 56px; height: 41px; }
+  .cup-full { left: 0; top: 54px; width: 55px; height: 40px; visibility: hidden; }
+  /* Hover (or press, on touch screens) to pour: the cup fills */
+  .pour:global(.pouring) .cup { visibility: hidden; }
+  .pour:global(.pouring) .cup-full { visibility: visible; }
+  @media (hover: hover) {
+    .pour:hover .pot { transform: translateY(-14px) rotate(-22deg); }
+    .pour:hover .cup { visibility: hidden; transition-delay: 0.2s; }
+    .pour:hover .cup-full { visibility: visible; transition-delay: 0.2s; }
+  }
+  .pot {
+    left: 59px; top: 0; width: 126px; height: 89px;
+    transform-origin: 70% 90%;
+    transition: transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1);
+  }
+  /* Pour: the pot lifts and tips its spout toward the cup; the cup fills just after */
+  .pour:global(.pouring) .pot { transform: translateY(-14px) rotate(-22deg); }
+  .cup, .cup-full { transition: visibility 0s linear 0s; }
+  .pour:global(.pouring) .cup, .pour:global(.pouring) .cup-full { transition-delay: 0.2s; }
+
+  @media (max-width: 1199px) {
+    .footer { padding: 0 118px; }
+    .left { padding-top: 68px; }
+    .thanks { font-size: 30px; line-height: 36px; height: 30px; }
+  }
+  @media (max-width: 809px) {
+    .footer { height: auto; padding: 60px 24px 48px; flex-direction: column; gap: 32px; }
+    .left { padding-top: 0; }
+    .tea { margin-top: 0; }
+  }
+</style>

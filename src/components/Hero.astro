@@ -1,0 +1,257 @@
+---
+/**
+ * The illustrated desk scene.
+ *
+ * Every piece is absolutely positioned on a coordinate grid copied from the
+ * live Framer site:
+ *   d = desktop/tablet [x, y, w, h] on a 1200px-wide canvas
+ *   m = phone          [x, y, w, h] on a 390px-wide canvas
+ * The canvas scales with its width (container query units).
+ *
+ * Pieces with `overlay` open the matching popup from HomeOverlays.astro.
+ */
+type Box = [number, number, number, number];
+interface Piece {
+  id: string;
+  src: string;
+  d: Box;
+  m: Box;
+  fx?: 'lift' | 'lift-sm' | 'book';
+  rotate?: number;
+  overlay?: string;
+  label?: string;
+  drag?: 'free' | 'snap';
+}
+
+const back: Piece[] = [
+  { id: 'window', src: 'window-light.png', d: [50, 27, 355, 401], m: [5, 0, 278, 314] },
+];
+const shelf: Piece[] = [
+  { id: 'shelf', src: 'shelf.png', d: [759, 132, 391, 83], m: [40, 171, 215, 46] },
+];
+const books: Piece[] = [
+  { id: 'book-1', src: 'book-1.png', d: [781, 31, 17, 108], m: [52, 115, 9, 57], fx: 'book', overlay: 'ov-reading', label: 'What I’m reading' },
+  { id: 'book-5', src: 'book-5.png', d: [844.5, 61, 10, 74], m: [87.5, 132, 5, 37], fx: 'book', rotate: -17, overlay: 'ov-stories', label: 'A note on stories' },
+  { id: 'book-2', src: 'book-2.png', d: [795, 51, 19, 88], m: [60, 126, 10, 46], fx: 'book', overlay: 'ov-happy', label: 'A note on happiness' },
+  { id: 'book-4', src: 'book-4.png', d: [820, 65, 19, 70], m: [73, 134, 10, 37], fx: 'book', overlay: 'ov-explore', label: 'A note on exploring' },
+  { id: 'book-3', src: 'book-3.png', d: [810, 60, 13, 80], m: [68, 131, 7, 43], fx: 'book', overlay: 'ov-vent', label: 'A favourite quote' },
+  { id: 'frame', src: 'picture-frame.png', d: [872, 39, 88, 98], m: [102, 120, 48, 54], fx: 'lift', overlay: 'ov-toronto', label: 'Where I grew up' },
+];
+const deskFront: Piece[] = [
+  { id: 'strips', src: 'photo-strips.png', d: [273, 316, 60, 95], m: [113, 306, 27, 43], fx: 'lift', overlay: 'ov-photobooth', label: 'Photobooth strips', drag: 'free' },
+  { id: 'note', src: 'sticky-note.png', d: [355, 349, 43, 41], m: [151, 322, 19, 19], fx: 'lift', overlay: 'ov-todo', label: 'My to-do list' },
+];
+const deskItems: Piece[] = [
+  { id: 'camera', src: 'camera.png', d: [605, 486, 73, 43], m: [277, 391, 34, 20], fx: 'lift', overlay: 'ov-camera', label: 'Photos from my camera' },
+  { id: 'sketchbook', src: 'sketchbook.png', d: [302, 477, 177, 54], m: [134, 387, 84, 26], fx: 'lift-sm', overlay: 'ov-sketchbook', label: 'My sketchbook' },
+  { id: 'airpods', src: 'airpods.png', d: [503, 496, 34, 27], m: [229, 394, 15, 12], fx: 'lift', overlay: 'ov-listening', label: 'What I’m listening to' },
+  { id: 'drink', src: 'drink.png', d: [530, 425, 68, 83], m: [242, 361, 31, 38], fx: 'lift', overlay: 'ov-sipping', label: 'What I’m sipping' },
+];
+
+const v = (p: { d: Box; m: Box }) =>
+  `--dx:${p.d[0]};--dy:${p.d[1]};--dw:${p.d[2]};--dh:${p.d[3]};--mx:${p.m[0]};--my:${p.m[1]};--mw:${p.m[2]};--mh:${p.m[3]}`;
+const img = (p: Piece) => `/images/hero/${p.src}`;
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="scene">
+    {back.map((p) => <img class="item" src={img(p)} alt="" style={v(p)} />)}
+
+    <!-- Calendar with today's date -->
+    <div class="item calendar" style={v({ d: [823, 224, 127, 204], m: [295, 0, 65, 104] })}>
+      <img src="/images/hero/calendar.png" alt="" />
+      <span class="js-date" aria-hidden="true"></span>
+    </div>
+
+    {shelf.map((p) => <img class="item" src={img(p)} alt="" style={v(p)} />)}
+
+    <!-- Cat: wakes up on hover, can be dragged and springs back -->
+    <div class="item cat" data-drag="snap" style={v({ d: [959, 74, 175, 117], m: [150, 139, 96, 64] })}>
+      <img class="asleep" src="/images/hero/cat-sleeping.gif" alt="A sleeping cat on the shelf" draggable="false" />
+      <img class="awake" src="/images/hero/cat-awake.png" alt="" draggable="false" style={v({ d: [-11, -87, 151, 139], m: [-6, -48, 83, 76] })} />
+    </div>
+
+    <!-- Vase: the cursor turns into a flower over it -->
+    <div class="item vase" data-cursor="flower" style={v({ d: [1091, 32, 59, 109], m: [223, 116, 32, 59] })}>
+      <img src="/images/hero/vase.png" alt="" />
+    </div>
+
+    {books.map((p) => (
+      <button type="button" class:list={['item', 'fx', p.fx]} data-overlay-open={p.overlay} aria-label={p.label}
+              style={`${v(p)};--rot:${p.rotate ?? 0}deg`}>
+        <img src={img(p)} alt="" />
+      </button>
+    ))}
+
+    <div class="intro" data-reveal="load">
+      <h1 id="hero-title">Hi, I'm Aricia!</h1>
+      <p class="sub">Studying Design and HCI @ Carnegie Mellon</p>
+      <p class="t-aside">Previously @ Duolingo, RBC, various startups</p>
+    </div>
+
+    {deskFront.map((p) => (
+      <button type="button" class:list={['item', 'fx', p.fx]} data-overlay-open={p.overlay} data-drag={p.drag}
+              aria-label={p.label} style={v(p)}>
+        <img src={img(p)} alt="" draggable="false" />
+      </button>
+    ))}
+
+    <!-- Lamp: turns on when hovered -->
+    <img class="item glow" src="/images/hero/lamp-glow.png" alt="" style={v({ d: [326, 354, 301, 187], m: [156, 333, 136, 84] })} />
+    <div class="item lamp" style={v({ d: [574, 320, 153, 183], m: [268, 318, 69, 80] })}>
+      <img src="/images/hero/lamp.png" alt="" />
+    </div>
+
+    <img class="item" src="/images/hero/desk.png" alt="" style={v({ d: [20, 459, 852, 108], m: [0, 379, 384, 47] })} />
+
+    <a class="item stickers tip-host" href="https://www.etsy.com/shop/PopcatPress" target="_blank" rel="noopener"
+       data-cursor="link" aria-label="Check out my Etsy shop" style={v({ d: [736, 492, 70, 31], m: [331, 396, 33, 14] })}>
+      <span class="tip" style={v({ d: [7, -28, 58, 26], m: [0, 0, 0, 0] })}>Check out my Etsy :)</span>
+      <img src="/images/hero/stickers.png" alt="" />
+    </a>
+
+    {deskItems.map((p) => (
+      <button type="button" class:list={['item', 'fx', p.fx]} data-overlay-open={p.overlay} aria-label={p.label} style={v(p)}>
+        <img src={img(p)} alt="" />
+      </button>
+    ))}
+
+    <!-- Clock with the current time -->
+    <div class="item clock" style={v({ d: [420, 438, 102, 46], m: [180, 369, 46, 21] })}>
+      <img src="/images/hero/clock.png" alt="" />
+      <span class="js-time" aria-hidden="true"></span>
+    </div>
+
+    <button type="button" class="item fx lift" data-overlay-open="ov-pen" aria-label="My favourite pen"
+            style={v({ d: [476, 484, 26, 33], m: [213, 391, 12, 15] })}>
+      <img src="/images/hero/pen.png" alt="" />
+    </button>
+
+    <a class="item laptop tip-host" href="https://aricia.webflow.io" target="_blank" rel="noopener"
+       data-cursor="link" aria-label="Check out my previous website" style={v({ d: [94, 396, 210, 108], m: [48, 351, 92, 47] })}>
+      <span class="tip wide" style={v({ d: [2, -27, 116, 24], m: [0, 0, 0, 0] })}>Check out my<br />previous website!</span>
+      <img src="/images/hero/laptop.png" alt="" />
+      <img class="screen" src="/images/hero/laptop-screen.png" alt="" style={v({ d: [8, 11, 133, 64], m: [8, 11, 58, 28] })} />
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero { padding: 5px 0 24px; }
+  .scene {
+    position: relative;
+    container-type: inline-size;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    aspect-ratio: 1200 / 567;
+    --u: calc(100cqw / 1200);
+  }
+  .scene .item,
+  .scene .item [style] {
+    --x: var(--dx); --y: var(--dy); --w: var(--dw); --h: var(--dh);
+    position: absolute;
+    left: calc(var(--x) * var(--u));
+    top: calc(var(--y) * var(--u));
+    width: calc(var(--w) * var(--u));
+    height: calc(var(--h) * var(--u));
+  }
+  .item > img:not([style]) { position: absolute; inset: 0; width: 100%; height: 100%; }
+  button.item {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+  }
+  button.item:focus-visible, a.item:focus-visible { outline: 2px solid #000; outline-offset: 3px; border-radius: 4px; }
+
+  /* Intro copy */
+  .intro {
+    position: absolute;
+    left: calc(140 * var(--u));
+    top: calc(116 * var(--u));
+    z-index: 2;
+    pointer-events: none;
+  }
+  h1 { font-family: var(--serif); font-size: 48px; line-height: 57.6px; }
+  .sub { font-size: 16px; line-height: 19.2px; margin-bottom: 24px; }
+
+  /* Live date + time */
+  .calendar span, .clock span { position: absolute; left: 0; right: 0; text-align: center; line-height: 1; }
+  .calendar span { top: 51%; font-family: var(--hand); font-size: calc(16 * var(--u)); }
+  .clock span { top: 28%; font-family: var(--ui); font-size: calc(16 * var(--u)); }
+
+  /* Cat: the sleeping/awake swap is instant (no transition) */
+  .cat { touch-action: none; user-select: none; }
+  .cat .asleep { border-radius: calc(33 * var(--u)); object-fit: cover; }
+  .cat .awake { visibility: hidden; pointer-events: none; }
+
+  /* Hover interactions (only where hovering exists) */
+  .fx, .laptop, .glow, .tip { transition: transform var(--dur) var(--ease), opacity 0.25s ease; }
+  .fx { transform: rotate(var(--rot, 0deg)); }
+  .glow { opacity: 0; pointer-events: none; }
+  .tip {
+    opacity: 0;
+    transform: translateY(4px);
+    pointer-events: none;
+    font-family: var(--hand);
+    font-size: 12px;
+    line-height: 13.2px;
+    letter-spacing: -0.24px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tip.wide { line-height: 12px; letter-spacing: 0; }
+  [data-drag] { touch-action: none; }
+  [data-drag].dragging { z-index: 3; }
+
+  @media (hover: hover) {
+    .lift:hover { transform: translateY(-10px) scale(1.1); }
+    .lift-sm:hover { transform: translateY(-7px) scale(1.1); }
+    .book:hover { transform: rotate(var(--rot, 0deg)) translateY(-20px) scale(1.1); }
+    .scene:has(.lamp:hover) .glow { opacity: 1; }
+    .tip-host:hover .tip { opacity: 1; transform: none; }
+    .laptop:hover { transform: scale(1.015); }
+  }
+  .cat:hover .asleep, .cat.dragging .asleep { visibility: hidden; }
+  .cat:hover .awake, .cat.dragging .awake { visibility: visible; }
+
+  /* Tablet: same scene, a bit more room up top */
+  @media (max-width: 1199px) {
+    .hero { padding-top: 35px; }
+  }
+
+  /* Phone: the phone layout from the live site, on a 390px canvas */
+  @media (max-width: 809px) {
+    .hero { padding: 0 0 32px; }
+    .scene { aspect-ratio: 390 / 430; --u: calc(100cqw / 390); }
+    .scene .item,
+    .scene .item [style] {
+      --x: var(--mx); --y: var(--my); --w: var(--mw); --h: var(--mh);
+    }
+    .intro { left: 20px; right: 20px; top: calc(204 * var(--u)); text-align: center; }
+    .sub { margin-bottom: 12px; }
+    .cat .asleep { border-radius: calc(18 * var(--u)); }
+    .calendar span { font-size: calc(8.5 * var(--u)); }
+    .clock span { font-size: calc(7.6 * var(--u)); }
+    .tip { display: none; }
+  }
+</style>
+
+<script>
+  const dateEls = document.querySelectorAll<HTMLElement>('.js-date');
+  const timeEls = document.querySelectorAll<HTMLElement>('.js-time');
+  const render = () => {
+    const now = new Date();
+    const date = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`;
+    const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    dateEls.forEach((el) => (el.textContent = date));
+    timeEls.forEach((el) => (el.textContent = time));
+  };
+  render();
+  setInterval(render, 15_000);
+</script>

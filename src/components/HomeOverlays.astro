@@ -1,0 +1,143 @@
+---
+/** Popups opened from the desk scene and the Kirple tidbit (content from the live Framer site). */
+import Overlay from './Overlay.astro';
+import GalleryOverlay from './GalleryOverlay.astro';
+---
+<!-- Shelf books: little notes, invisible backdrop -->
+<Overlay id="ov-reading" label="Currently reading" backdrop="clear">
+  <div class="note" style="width:418px">
+    <p>Currently reading</p>
+    <ul class="note-list">
+      <li>Notes from Underground - Fyodor Dostoevsky</li>
+      <li>Kafka on the Shore - Haruki Murakami</li>
+    </ul>
+  </div>
+</Overlay>
+
+<Overlay id="ov-stories" label="A note" backdrop="clear">
+  <div class="note" style="width:414px;padding:28px">
+    <p>I want to tell stories and sprinkle whimsy wherever I go and in whatever project I do.</p>
+  </div>
+</Overlay>
+
+<Overlay id="ov-happy" label="A note" backdrop="clear">
+  <div class="note" style="width:406px;padding:24px">
+    <p>What makes you happy? I'm a selfish person who hopes to find love in everything.</p>
+    <p style="margin-top:20px">If the sun makes people happy, then I wish to embody the sun. I must be grateful for the people I smile around.</p>
+  </div>
+</Overlay>
+
+<Overlay id="ov-explore" label="A note" backdrop="clear">
+  <div class="note" style="width:374px">
+    <p>There's a lot to explore out there. I daresay <em>too</em> much.</p>
+  </div>
+</Overlay>
+
+<Overlay id="ov-vent" label="A note" backdrop="clear">
+  <div class="note" style="width:max-content">
+    <p>Le vent se lève! il faut tenter de vivre!</p>
+  </div>
+</Overlay>
+
+<!-- Picture frame: Toronto -->
+<Overlay id="ov-toronto" label="Where I grew up" fit={[681, 566]}>
+  <div class="ov-abs photo-frame" style="left:0;top:0;width:382px;height:566px;border-radius:5px;transform:rotate(-5deg)">
+    <img src="/images/overlays/toronto.webp" alt="Holding up snacks in front of the CN Tower" style="object-fit:cover" />
+  </div>
+  <div class="note ov-abs" style="left:359px;top:209px;width:322px">
+    <p>I was born and raised in the Greater Toronto Area! More specifically, Markham! We have the best food :)</p>
+  </div>
+</Overlay>
+
+<!-- Photo strips -->
+<Overlay id="ov-photobooth" label="Photobooth strips" fit={[561, 636]}>
+  <img class="ov-abs" src="/images/overlays/photobooth.gif" alt="Animated photobooth strip"
+       style="left:236px;top:68px;width:306px;height:456px;object-fit:cover;transform:rotate(5deg)" />
+  <video class="ov-abs" src="/media/photo-strip.mp4" muted loop playsinline preload="none" data-autoplay
+         style="left:22px;top:7px;width:207px;height:622px;object-fit:cover;transform:rotate(-4deg)"></video>
+</Overlay>
+
+<!-- Sticky note -->
+<Overlay id="ov-todo" label="Fall '26 to do">
+  <div class="note" style="width:324px">
+    <p>Fall '26 to do</p>
+    <ul class="note-list">
+      <li>Take many many photos in Tokyo</li>
+    </ul>
+  </div>
+</Overlay>
+
+<!-- Camera: a scatter of photos -->
+<Overlay id="ov-camera" label="Photos" fit={[1050, 594]}>
+  <div class="ov-abs photo-frame thin" style="left:305px;top:16px;width:414px;height:275px">
+    <img src="/images/overlays/camera-1.webp" alt="" style="object-fit:cover" />
+  </div>
+  <div class="ov-abs photo-frame thin" style="left:25px;top:199px;width:414px;height:275px;transform:rotate(-12deg)">
+    <img src="/images/overlays/camera-2.webp" alt="" style="object-fit:cover" />
+  </div>
+  <div class="ov-abs photo-frame thin" style="left:691px;top:79px;width:414px;height:275px;transform:rotate(94deg)">
+    <img src="/images/overlays/camera-3.webp" alt="" style="position:absolute;left:66px;top:-68px;width:281px;height:408px;object-fit:cover;transform:rotate(-90deg)" />
+  </div>
+  <div class="ov-abs photo-frame thin" style="left:416px;top:291px;width:414px;height:275px;transform:rotate(8deg)">
+    <img src="/images/overlays/camera-4.webp" alt="" style="object-fit:cover" />
+  </div>
+</Overlay>
+
+<!-- Sketchbook (same gallery as the Play page) -->
+<GalleryOverlay id="ov-sketchbook" gallery="sketchbook" backdrop="light" />
+
+<!-- AirPods: Spotify playlist -->
+<Overlay id="ov-listening" label="Currently listening to">
+  <div class="note" style="width:403px">
+    <p>Currently listening to…</p>
+    <iframe class="embed" title="Spotify playlist" data-src="https://open.spotify.com/embed/playlist/6dYYNPydNmq7SCafA3tScJ?utm_source=generator&theme=0"
+            width="343" height="159" style="margin-top:3px" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  </div>
+</Overlay>
+
+<!-- Drink: Spotify track -->
+<Overlay id="ov-sipping" label="Currently sipping">
+  <div class="note" style="width:457px;padding:30px 43px 23px;border-radius:10px">
+    <p>Currently sipping…</p>
+    <div class="embed-clip">
+      <iframe class="embed" title="Spotify track" data-src="https://open.spotify.com/embed/track/4s5LsmjqGgpwftaPqgONLC?utm_source=generator"
+              width="371" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+  </div>
+</Overlay>
+
+<!-- Pen -->
+<Overlay id="ov-pen" label="Staedtler pen" fit={[682, 100]}>
+  <img class="ov-abs" src="/images/overlays/staedtler-pen.webp" alt="A Staedtler pigment liner" style="left:0;top:0;width:682px;height:100px;object-fit:contain" />
+</Overlay>
+
+<!-- Kirple tidbit -->
+<Overlay id="ov-kirple" label="Kirple" backdrop="dark">
+  <div class="kirple">
+    <h3>Kirple</h3>
+    <p class="k-lede">
+      Kirple is an AI-powered creature collection game where players attract and interact with unique creatures by placing
+      toys, furniture, and food in a shared garden. Each creature has a personality generated from traits and a custom memory
+      system. As the player engages more with a creature, it "remembers" meaningful events - unlocking new animations, diary
+      entries, and emotional responses. These memories are stored chronologically and become more detailed with higher
+      interactivity.
+    </p>
+    <div class="k-callout">
+      <div class="k-text">
+        <p><strong>Check it Out!</strong></p>
+        <p>
+          Kirple was inspired by cozy simulation games like <em>Neko Atsume</em> and <em>Animal Crossing</em>, where players
+          passively interact with cute creatures in a relaxing world. We wanted to recreate that whimsical, comforting
+          experience powered by AI. Our goal was to make each creature in the game feel alive through evolving
+          personalities, memories, and interactions based on how players treat them. We also saw this as an opportunity to
+          explore the intersection of generative AI, interactivity, and emotion in games.
+        </p>
+        <a class="k-link" href="https://devpost.com/software/kirple" target="_blank" rel="noopener">Check out Kirple on Devpost</a>
+      </div>
+      <button type="button" class="yt" data-youtube="uBEOC5fIOD8" aria-label="Play the Kirple video">
+        <img src="https://i.ytimg.com/vi_webp/uBEOC5fIOD8/sddefault.webp" alt="" loading="lazy" />
+        <svg viewBox="0 0 68 48" width="68" height="48" aria-hidden="true"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="red"/><path d="M45 24 27 14v20" fill="#fff"/></svg>
+      </button>
+    </div>
+  </div>
+</Overlay>

@@ -1,0 +1,46 @@
+---
+const links = [
+  { href: '/', label: 'Design' },
+  { href: '/play', label: 'Play' },
+  { href: '/about', label: 'About' },
+];
+---
+<header class="nav">
+  <a class="brand" href="/">
+    <img src="/images/logo-cat.png" alt="" width="25" height="27" />
+    <span>Aricia</span>
+  </a>
+  <nav aria-label="Main">
+    <ul>
+      {links.map((l) => (
+        <li><a href={l.href} aria-current={Astro.url.pathname === l.href ? 'page' : undefined}>{l.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .nav {
+    position: relative;
+    z-index: 5;
+    height: 67px;
+    padding: 0 var(--page-x);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 19.2px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; padding: 10px; margin-left: -10px; }
+  .brand img { width: 25px; height: 27px; object-fit: cover; }
+  ul { list-style: none; display: flex; gap: 40px; }
+  nav a { transition: color 0.2s ease; }
+  nav a:hover, .brand:hover span { color: var(--ink-hover); }
+  .brand span { transition: color 0.2s ease; }
+
+  @media (max-width: 809px) {
+    .nav { padding: 0 20px; }
+    ul { gap: 24px; }
+  }
+</style>

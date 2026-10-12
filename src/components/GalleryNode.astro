@@ -1,0 +1,31 @@
+---
+/** Renders one node of a gallery layout (see src/data/galleries.json). */
+interface Node {
+  t: 'row' | 'col' | 'img' | 'video' | 'text';
+  w: number;
+  h?: number;
+  gap?: number;
+  src?: string;
+  fit?: string;
+  kids?: Node[];
+  blocks?: { tag: string; html: string }[];
+}
+interface Props { node: Node }
+const { node } = Astro.props;
+const Self = Astro.self;
+---
+{node.t === 'row' || node.t === 'col' ? (
+  <div class={`g-${node.t}`} style={`--gap:${node.gap ?? 0}px;--w:${node.w}`}>
+    {node.kids!.map((k) => <Self node={k} />)}
+  </div>
+) : node.t === 'img' ? (
+  <img class="g-media" src={node.src} alt="" loading="lazy" decoding="async" style={`--w:${node.w};aspect-ratio:${node.w}/${node.h}`} />
+) : node.t === 'video' ? (
+  <video class="g-media" src={node.src} muted loop playsinline preload="none" data-autoplay style={`--w:${node.w};aspect-ratio:${node.w}/${node.h}${node.fit ? `;object-fit:${node.fit}` : ""}`}></video>
+) : (
+  <div class="g-text" style={`--w:${node.w}`}>
+    {node.blocks!.map((b) =>
+      b.tag === 'h5' ? <h5 class="g-label" set:html={b.html} /> : <p class="g-body" set:html={b.html} />
+    )}
+  </div>
+)}

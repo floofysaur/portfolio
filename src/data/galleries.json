@@ -1,0 +1,550 @@
+{
+ "sketchbook": {
+  "title": "Sketchbook",
+  "content": {
+   "t": "col",
+   "w": 972,
+   "gap": 10,
+   "kids": [
+    {
+     "t": "row",
+     "w": 972,
+     "gap": 10,
+     "kids": [
+      {
+       "t": "img",
+       "src": "/images/play/gallery/ptoTRXmhFF6frsD6woQ9NQTaFiA.webp",
+       "w": 525,
+       "h": 345
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/bxHAemGmZHbGV00B7ShvyZqs.webp",
+       "w": 437,
+       "h": 348
+      }
+     ]
+    },
+    {
+     "t": "row",
+     "w": 972,
+     "gap": 9,
+     "kids": [
+      {
+       "t": "img",
+       "src": "/images/play/gallery/N8cBGOGc1NdNtoT4wVGaAvhYLQ.webp",
+       "w": 253,
+       "h": 306
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/NTWdUKD8AduiAp64HR3DPXPhIE.webp",
+       "w": 233,
+       "h": 301
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/GzSZob3JeKBP33C81ED9eGYAk.webp",
+       "w": 467,
+       "h": 305
+      }
+     ]
+    },
+    {
+     "t": "row",
+     "w": 972,
+     "gap": 10,
+     "kids": [
+      {
+       "t": "img",
+       "src": "/images/play/gallery/J0bWw6vEzwUJkuE4kkkxMVyuISc.webp",
+       "w": 525,
+       "h": 283
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/UoNUgQGlqnQOA1b0klhUrPUoT9w.webp",
+       "w": 428,
+       "h": 281
+      }
+     ]
+    },
+    {
+     "t": "row",
+     "w": 972,
+     "gap": 10,
+     "kids": [
+      {
+       "t": "img",
+       "src": "/images/play/gallery/f32AB0Fb74NLzEdtpz26IMDncLs.webp",
+       "w": 253,
+       "h": 166
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/NfrcUptvF41HgRRp6ONcYoveA.webp",
+       "w": 224,
+       "h": 166
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/8m2vId5u7x0WNd96VJYFcBQ96w.webp",
+       "w": 233,
+       "h": 166
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/1KpYudHO5BGmW7Muzh62M9l5Gc.webp",
+       "w": 224,
+       "h": 166
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "photography": {
+  "title": "Photography",
+  "content": {
+   "t": "row",
+   "w": 972,
+   "gap": 9,
+   "kids": [
+    {
+     "t": "col",
+     "w": 318,
+     "gap": 9,
+     "kids": [
+      {
+       "t": "col",
+       "w": 318,
+       "gap": 0,
+       "kids": [
+        {
+         "t": "img",
+         "src": "/images/play/gallery/OvKmqN5kaLgFx2NOxbGkSSFuMg.webp",
+         "w": 318,
+         "h": 210
+        },
+        {
+         "t": "img",
+         "src": "/images/play/gallery/YpHVEXJftD20zevTVF5dlMq3TEc.webp",
+         "w": 318,
+         "h": 210
+        },
+        {
+         "t": "img",
+         "src": "/images/play/gallery/biwbZbvK4y04hG6VaZ2EioWvHo.webp",
+         "w": 318,
+         "h": 211
+        }
+       ]
+      },
+      {
+       "t": "col",
+       "w": 318,
+       "gap": 0,
+       "kids": [
+        {
+         "t": "img",
+         "src": "/images/play/gallery/uwvXyn7wI4hrdMvZsf0GZK9KMbA.webp",
+         "w": 318,
+         "h": 210
+        },
+        {
+         "t": "img",
+         "src": "/images/play/gallery/tfyWNH2SE9HvNnBZPFLWDGy70A0.webp",
+         "w": 318,
+         "h": 211
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "t": "col",
+     "w": 318,
+     "gap": 9,
+     "kids": [
+      {
+       "t": "col",
+       "w": 318,
+       "gap": 0,
+       "kids": [
+        {
+         "t": "img",
+         "src": "/images/play/gallery/WZeRVuKoZjzQmvJuphEOzqmvkg.webp",
+         "w": 318,
+         "h": 212
+        },
+        {
+         "t": "img",
+         "src": "/images/play/gallery/3ANt75nTHJjxDJVGXiygRYZkIM.webp",
+         "w": 318,
+         "h": 212
+        },
+        {
+         "t": "img",
+         "src": "/images/play/gallery/javDxagfOxoklzBd3kHeMSQY.webp",
+         "w": 318,
+         "h": 212
+        }
+       ]
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/nNC3mjXBu8f5wIcCKaxwcVnc10.webp",
+       "w": 318,
+       "h": 481
+      }
+     ]
+    },
+    {
+     "t": "col",
+     "w": 318,
+     "gap": 9,
+     "kids": [
+      {
+       "t": "img",
+       "src": "/images/play/gallery/Bs7rgg8tcYc43bjf7jnZOl6lAo.webp",
+       "w": 318,
+       "h": 212
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/uyymjdyW2bon4HrzAOiBDvhc.webp",
+       "w": 318,
+       "h": 210
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/MabSnJMEfVptFcAZlQGs2UixEQ.webp",
+       "w": 318,
+       "h": 212
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/UBlBclvfEKRPOIRD4EP0SSuBdk.webp",
+       "w": 318,
+       "h": 210
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/Hm0cQAd8u1lQIqb3St4Dts52wg.webp",
+       "w": 318,
+       "h": 210
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "illustration": {
+  "title": "Illustration",
+  "content": {
+   "t": "col",
+   "w": 972,
+   "gap": 20,
+   "kids": [
+    {
+     "t": "row",
+     "w": 972,
+     "gap": 30,
+     "kids": [
+      {
+       "t": "img",
+       "src": "/images/play/gallery/aG9JWFDW3jzHuBFca4qH5PXvsE.webp",
+       "w": 471,
+       "h": 298
+      },
+      {
+       "t": "text",
+       "w": 471,
+       "blocks": [
+        {
+         "tag": "h5",
+         "html": "pANDEMICS"
+        },
+        {
+         "tag": "p",
+         "html": "<em>The Spanish flu and COVID-19 have striking similarities when it comes to the dissemination of false information. During the Spanish flu fortune telling became widespread, while during COVID-19, we obtain information from arbitrary sources on the internet. History has an interesting way of repeating itself through new mediums.</em>"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "t": "row",
+     "w": 972,
+     "gap": 10,
+     "kids": [
+      {
+       "t": "img",
+       "src": "/images/play/gallery/JmztqaekOTe2qGVNlVPFgqbxM.webp",
+       "w": 262,
+       "h": 392
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/jo6L9iHDvt6kRqCeVABZrVikZF4.webp",
+       "w": 253,
+       "h": 379
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/YdTksFEq4yXBTOVymDV47cMXoss.webp",
+       "w": 437,
+       "h": 389
+      }
+     ]
+    },
+    {
+     "t": "row",
+     "w": 972,
+     "gap": 10,
+     "kids": [
+      {
+       "t": "img",
+       "src": "/images/play/gallery/Qa1HE4DjexAxUyaa4cuFus9foA.webp",
+       "w": 437,
+       "h": 343
+      },
+      {
+       "t": "video",
+       "src": "/media/illustration-process.mp4",
+       "w": 253,
+       "h": 349
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/z9Ohd6JDlaDyIwqomzAVBwUfj0.webp",
+       "w": 262,
+       "h": 351
+      }
+     ]
+    },
+    {
+     "t": "row",
+     "w": 972,
+     "gap": 30,
+     "kids": [
+      {
+       "t": "video",
+       "src": "/media/illustration-filters.mp4",
+       "w": 542,
+       "h": 305,
+       "fit": "contain"
+      },
+      {
+       "t": "text",
+       "w": 400,
+       "blocks": [
+        {
+         "tag": "h5",
+         "html": "FILTER THROUGH HISTORY"
+        },
+        {
+         "tag": "p",
+         "html": "<em>When going to art museums, many find it difficult to understand and appreciate historical art. Face filters can act as a modern medium to teach about historical art movements and styles.&nbsp;</em><em><br><br></em><em>Top left: Expressionism&nbsp;</em><em><br></em><em>Top right: Cubism</em><em><br></em><em>Bottom left: Surrealism</em><em><br></em><em>Bottom right: Pop art</em>"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "t": "row",
+     "w": 972,
+     "gap": 10,
+     "kids": [
+      {
+       "t": "img",
+       "src": "/images/play/gallery/EsvKX1bdfkEMOyijeNxqrA4mz5E.webp",
+       "w": 481,
+       "h": 341
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/1fbIiDOs6fz8tXr0gqnBTfu0yrg.webp",
+       "w": 481,
+       "h": 342
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "miscellany": {
+  "title": "Explore!",
+  "content": {
+   "t": "col",
+   "w": 961,
+   "gap": 74,
+   "kids": [
+    {
+     "t": "row",
+     "w": 834,
+     "gap": 30,
+     "kids": [
+      {
+       "t": "text",
+       "w": 404,
+       "blocks": [
+        {
+         "tag": "h5",
+         "html": "SOAP PACKAGING"
+        },
+        {
+         "tag": "p",
+         "html": "<em>Before </em><a href=\"https://www.etsy.com/shop/PopcatPress\" target=\"_blank\" rel=\"\"><em>Popcat Press</em></a><em> was a stationery company, I actually made cold-press soap from scratch! Much of the fun for me came from making packaging but 13 year old me soon realized it wasn't quite scalable\u2026</em>"
+        }
+       ]
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/ocNv9YzShdtHyScsr3Ael3mQCaI.webp",
+       "w": 400,
+       "h": 346
+      }
+     ]
+    },
+    {
+     "t": "col",
+     "w": 961,
+     "gap": 30,
+     "kids": [
+      {
+       "t": "text",
+       "w": 961,
+       "blocks": [
+        {
+         "tag": "h5",
+         "html": "COZY LIL' CABIN"
+        },
+        {
+         "tag": "p",
+         "html": "I recently just started learning how to use Blender! I've been following tutorials and made my dream cozy cabin :)"
+        }
+       ]
+      },
+      {
+       "t": "row",
+       "w": 961,
+       "gap": 11,
+       "kids": [
+        {
+         "t": "img",
+         "src": "/images/play/gallery/U8IuCImifLD38LyQoIewHX83Q.webp",
+         "w": 313,
+         "h": 313
+        },
+        {
+         "t": "img",
+         "src": "/images/play/gallery/Xlw1p0Ofy1klV8328PaEWmpjyk.webp",
+         "w": 313,
+         "h": 313
+        },
+        {
+         "t": "img",
+         "src": "/images/play/gallery/prRz3Kzd8ZfDjbTANNAubURkE.webp",
+         "w": 313,
+         "h": 313
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "graphic": {
+  "title": "Graphic Design",
+  "content": {
+   "t": "col",
+   "w": 972,
+   "gap": 10,
+   "kids": [
+    {
+     "t": "row",
+     "w": 972,
+     "gap": 7,
+     "kids": [
+      {
+       "t": "img",
+       "src": "/images/play/gallery/uahAisHmf0FdlHleOfcj4dxldU.webp",
+       "w": 238,
+       "h": 318
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/37lzocYngnCgIpPZh2nTRgByI8.webp",
+       "w": 238,
+       "h": 317
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/Q65lQtUEmYZe1akCS7ytMOKAX8.webp",
+       "w": 238,
+       "h": 316
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/EaeSUGavBOi2XscCyN9IdYYDQsI.webp",
+       "w": 238,
+       "h": 317
+      }
+     ]
+    },
+    {
+     "t": "row",
+     "w": 972,
+     "gap": 7,
+     "kids": [
+      {
+       "t": "img",
+       "src": "/images/play/gallery/PHDSRMuyzjx8hQ81r4AgaMJ9oQs.webp",
+       "w": 238,
+       "h": 317
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/O0bbBPlorNth9waAYlrnPf1quA.webp",
+       "w": 238,
+       "h": 317
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/QARasc9fPIf2QznxwGY0lDx8ms.webp",
+       "w": 238,
+       "h": 367
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/F20i4JlL3yluNyDFxUzLao8qo.webp",
+       "w": 238,
+       "h": 350
+      }
+     ]
+    },
+    {
+     "t": "row",
+     "w": 972,
+     "gap": 7,
+     "kids": [
+      {
+       "t": "img",
+       "src": "/images/play/gallery/Ilpw0zYYYJrWB7x4vg1Py8ViC1U.webp",
+       "w": 319,
+       "h": 426
+      },
+      {
+       "t": "img",
+       "src": "/images/play/gallery/NCGmoSYolsf9qRf1wFGzAERn64g.webp",
+       "w": 319,
+       "h": 426
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

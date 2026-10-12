@@ -1,0 +1,58 @@
+---
+import type { Tidbit } from '../data/projects';
+interface Props { item: Tidbit }
+const { item } = Astro.props;
+const Tag = item.href ? 'a' : 'button';
+const linkProps = item.href
+  ? { href: item.href, target: '_blank', rel: 'noopener' }
+  : { type: 'button', 'data-overlay-open': item.overlay, 'aria-label': `${item.title}: ${item.description}` };
+const t = item.thumb;
+---
+<Tag class="tidbit" data-cursor={item.href ? 'link' : undefined} {...linkProps}>
+  <div
+    class="thumb"
+    style={`background-image:url('${t.src}');background-size:${t.size};background-position:${t.position};${t.bg ? `background-color:${t.bg};` : ''}`}
+    role="img"
+    aria-label=""
+  ></div>
+  <div class="text">
+    <p class="title">{item.title}</p>
+    <p class="t-body">{item.description}</p>
+  </div>
+</Tag>
+
+<style>
+  .tidbit {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: left;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 120px;
+    transition: transform 0.4s cubic-bezier(0.3, 1.3, 0.6, 1);
+  }
+  .thumb {
+    flex: 0 0 120px;
+    height: 120px;
+    border-radius: 5px;
+    background-repeat: no-repeat;
+  }
+  .text { max-width: 329px; }
+  .title {
+    font-family: var(--serif-alt);
+    font-size: 28px;
+    line-height: 30.8px;
+    padding: 6px 0 2px;
+  }
+  @media (max-width: 809px) {
+    .tidbit { height: auto; min-height: 120px; }
+  }
+  @media (hover: hover) {
+    .tidbit:hover { transform: scale(1.05); }
+  }
+</style>

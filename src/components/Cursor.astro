@@ -1,0 +1,86 @@
+<!--
+  Custom cursor (from the Framer site). Three looks, picked by the nearest
+  [data-cursor] ancestor of whatever is under the pointer:
+    default – small white circle
+    flower  – the cursor itself becomes a flower (vase in the hero)
+    link    – an ↗ arrow for things that open another page
+-->
+<div class="cursor" data-variant="default" aria-hidden="true">
+  <span class="c-dot"></span>
+  <img class="c-flower" src="/images/hero/flower.png" alt="" width="31" height="27" />
+  <svg class="c-link" viewBox="0 0 31.5 31.5" width="32" height="32">
+    <path d="M 3.5 28 L 28.292 3.208 M 28.292 3.208 L 9.333 3.208 M 28.292 22.167 L 28.292 3.208"
+          fill="none" stroke="#fff" stroke-width="2.92" stroke-linecap="round" />
+  </svg>
+</div>
+
+<style>
+  .cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    transform: translate3d(-100px, -100px, 0);
+    will-change: transform;
+  }
+  .cursor.visible { opacity: 1; }
+  .cursor > * {
+    position: absolute;
+    left: 0;
+    top: 0;
+    translate: -50% -50%;
+    display: none;
+  }
+  .c-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #000;
+  }
+  .c-flower { width: 31px; height: 27px; }
+  .c-link { width: 32px; height: 32px; }
+  /* Blend the whole cursor layer so the white arrow inverts whatever is beneath it */
+  .cursor[data-variant='link'] { mix-blend-mode: difference; }
+  .cursor[data-variant='default'] .c-dot,
+  .cursor[data-variant='flower'] .c-flower,
+  .cursor[data-variant='link'] .c-link { display: block; }
+
+  @media not ((hover: hover) and (pointer: fine)) {
+    .cursor { display: none; }
+  }
+</style>
+
+<script>
+  const el = document.querySelector<HTMLDivElement>('.cursor');
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (el && fine) {
+    document.documentElement.classList.add('has-cursor');
+    let x = -100, y = -100, cx = x, cy = y, raf = 0;
+    const tick = () => {
+      cx += (x - cx) * 0.5;
+      cy += (y - cy) * 0.5;
+      el.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+      raf = Math.abs(x - cx) + Math.abs(y - cy) > 0.1 ? requestAnimationFrame(tick) : 0;
+    };
+    const setVariant = (target: EventTarget | null) => {
+      const host = (target as Element | null)?.closest?.('[data-cursor]') as HTMLElement | null;
+      const v = host?.dataset.cursor ?? 'default';
+      if (el.dataset.variant !== v) el.dataset.variant = v;
+    };
+    window.addEventListener('pointermove', (e) => {
+      x = e.clientX; y = e.clientY;
+      if (!el.classList.contains('visible')) { cx = x; cy = y; el.classList.add('visible'); }
+      setVariant(e.target);
+      if (!raf) raf = requestAnimationFrame(tick);
+    }, { passive: true });
+    document.addEventListener('pointerover', (e) => setVariant(e.target));
+    document.addEventListener('pointerleave', () => el.classList.remove('visible'));
+    document.addEventListener('pointerenter', () => el.classList.add('visible'));
+  }
+</script>

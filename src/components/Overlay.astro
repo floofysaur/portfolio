@@ -1,0 +1,28 @@
+---
+/**
+ * A popup layer, mirroring Framer's overlays: it opens and closes instantly,
+ * closes when you click the backdrop or press Esc.
+ *
+ * Every popup sits on a #000 25% backdrop. (`backdrop` is kept so a
+ * popup can be given its own look later.)
+ * fit: optional [width, height] of a fixed-size composition; it is scaled
+ *      down to fit small screens.
+ */
+interface Props {
+  id: string;
+  label: string;
+  backdrop?: 'clear' | 'light' | 'gallery' | 'dark';
+  fit?: [number, number];
+}
+const { id, label, backdrop = 'light', fit } = Astro.props;
+---
+<div class="overlay" id={id} data-backdrop={backdrop} role="dialog" aria-modal="true" aria-label={label} tabindex="-1" hidden>
+  <div class="overlay-backdrop" data-overlay-close></div>
+  {fit ? (
+    <div class="overlay-stage" data-fit={fit.join(',')} style={`width:${fit[0]}px;height:${fit[1]}px`}>
+      <slot />
+    </div>
+  ) : (
+    <slot />
+  )}
+</div>

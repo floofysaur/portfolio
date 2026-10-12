@@ -1,0 +1,14 @@
+---
+import CaseStudy from '../layouts/CaseStudy.astro';
+import { PRIVATE_PAGES } from '../data/private';
+
+export function getStaticPaths() {
+  const files = import.meta.glob('../data/case-studies/*.json', { eager: true }) as Record<string, any>;
+  return Object.values(files).map((m) => {
+    const data = m.default ?? m;
+    return { params: { slug: data.slug }, props: { data } };
+  });
+}
+const { data } = Astro.props;
+---
+<CaseStudy data={data} passcodeHash={data.slug in PRIVATE_PAGES ? PRIVATE_PAGES[data.slug] : undefined} />

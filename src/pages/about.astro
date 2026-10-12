@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Aricia Chan">
+  <section class="about" data-reveal="tween">
+    <div class="copy">
+      <h1 class="hello">Nice to meet you! ◝(ᵔᗜᵔ)◜</h1>
+      <p class="t-body">
+        At heart, I'm passionate about whimsy-seeking and impact-creating. I'm always looking for
+        projects that spark joy, and bring delight to the people around me.
+      </p>
+      <p class="t-body">
+        By daylight, I study design at Carnegie Mellon University. By starlight, I crochet, rock climb,
+        play Nintendo games, read books, and make yummy drinks.
+      </p>
+
+      <h2 class="t-label">Current adventures</h2>
+      <ul class="t-body">
+        <li>Studying abroad in Tokyo</li>
+        <li>Playing <a href="https://pokopia.pokemon.com/en-us/" target="_blank" rel="noopener">Pokopia</a></li>
+        <li>Making my first game!</li>
+      </ul>
+
+      <h2 class="t-label">Let's be friends!</h2>
+      <p class="t-body">
+        I'm on a constant journey of sidequest-maxxing, whether it's a going to a new cozy cafe or hiking
+        on trails, so if you wanna explore together, lmk :)
+      </p>
+    </div>
+
+    <div class="photos">
+      <!-- Polaroids: press to straighten -->
+      <div class="photo one" tabindex="0"><img src="/images/about/photo-1.jpg" alt="Aricia holding a bouquet of flowers" /></div>
+      <div class="photo two" tabindex="0"><img src="/images/about/photo-2.jpg" alt="Aricia taking a selfie with a cat" /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 66px 20px 68px;
+  }
+  .copy { width: 410px; padding-top: 14px; }
+  .hello { font-family: var(--serif); font-size: 24px; line-height: 30px; padding: 4px 0; margin-bottom: 16px; }
+  .copy > p + p { margin-top: 16px; }
+  .t-label { margin: 31px 0 8px; }
+  ul { list-style: none; }
+  li { position: relative; padding-left: 17px; }
+  li::before { content: '•'; position: absolute; left: 0; }
+  li a { text-decoration: underline; }
+  li a:hover { color: var(--ink-hover); }
+
+  .photos { position: relative; width: 475px; height: 487px; flex-shrink: 0; }
+  .photo {
+    position: absolute;
+    border-radius: 8px;
+    overflow: hidden;
+    transform: rotate(var(--rot));
+    transition: transform 0.4s cubic-bezier(0.3, 1.3, 0.6, 1);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .one img { object-position: center top; }
+  /* white polaroid border drawn over the photo, like Framer's image border */
+  .photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-style: solid;
+    border-color: #fff;
+    border-width: 10px 10px 56px;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .photo:active { transform: scale(0.9); }
+  .one { --rot: 5deg; width: 260px; height: 339px; left: calc(144.5px - 130px); top: calc(180px - 169.5px); }
+  .two { --rot: -3deg; width: 326px; height: 247px; left: calc(306px - 163px); top: calc(355px - 123.5px); }
+
+  @media (max-width: 1199px) {
+    .photos { zoom: 0.85; }
+  }
+  @media (max-width: 809px) {
+    .about { flex-direction: column; align-items: center; padding: 40px 24px 24px; gap: 24px; }
+    .copy { width: 100%; max-width: 410px; padding-top: 0; }
+    .photos { zoom: 0.72; }
+  }
+</style>

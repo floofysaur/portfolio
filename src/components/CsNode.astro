@@ -1,0 +1,132 @@
+---
+/**
+ * Renders one node of a case-study layout (src/data/case-studies/*.json).
+ * The data mirrors the Framer page's stacks: boxes are flex containers,
+ * leaves are text, images, videos and embeds.
+ */
+interface Props {
+  node: any;
+  inRow?: boolean;
+  parent?: { w: number; h: number };
+}
+const { node: n, inRow = false, parent } = Astro.props;
+const Self = Astro.self;
+
+const flex = n.flex ? String(n.flex).split('|') : null;
+const isRow = !!flex && flex[0].startsWith('row');
+
+const s: string[] = [];
+if (n.contents) s.push('display:contents');
+else if (n.abs && parent) {
+  const [x, y] = n.abs;
+  s.push(
+    'position:absolute',
+    `left:${((x / parent.w) * 100).toFixed(3)}%`,
+    `top:${((y / parent.h) * 100).toFixed(3)}%`,
+    `width:${((n.w / parent.w) * 100).toFixed(3)}%`,
+    `height:${((n.h / parent.h) * 100).toFixed(3)}%`,
+  );
+} else if (n.t === 'text' && n.single && !n.fill) {
+  s.push(inRow ? 'flex:0 0 auto' : 'width:auto');
+} else if (n.fill) {
+  s.push(inRow ? 'flex:1 1 0;min-width:0' : 'width:100%');
+} else {
+  s.push(inRow ? `flex:0 1 ${n.w}px;min-width:0` : `width:${n.w}px;max-width:100%`);
+}
+
+if (n.t === 'box' && !n.contents) {
+  if (flex) {
+    const [dir, gap, pad, ai, jc, wrap] = flex;
+    s.push(`display:flex;flex-direction:${dir};gap:${gap};padding:${pad};align-items:${ai};justify-content:${jc};flex-wrap:${wrap}`);
+  } else if (n.grid) {
+    const [cols, gap, pad] = String(n.grid).split('|');
+    s.push(`display:grid;grid-template-columns:${cols};gap:${gap};padding:${pad}`);
+  } else if (n.pad) s.push(`padding:${n.pad}`);
+  if (n.frame) s.push(`aspect-ratio:${n.w}/${n.h};height:auto`);
+  if (n.empty) {
+    if (inRow && parent && n.h >= parent.h - 1) s.push('align-self:stretch');
+    else s.push(`height:${n.h}px;flex-shrink:0`);
+  }
+  if (n.frame || n.kids?.some((k: any) => k.abs)) s.push('position:relative');
+  if (n.br && (n.frame || n.clip)) s.push('overflow:hidden');
+  if (n.bgi) s.push(`background-image:url('${n.bgi}');background-size:cover;background-position:center`);
+}
+if (n.bg) s.push(`background-color:${n.bg}`);
+if (n.br) s.push(`border-radius:${n.br}`);
+if (n.btn) s.push(`--btn-bd:${n.btn.bd};--btn-fg:${n.btn.fg};--btn-hbg:${n.btn.hbg};--btn-hfg:${n.btn.hfg}`);
+if (n.sh) s.push(`box-shadow:${n.sh}`);
+if (n.bd) for (const [side, v] of Object.entries(n.bd)) s.push(`border-${side}:${v}`);
+if (n.op) s.push(`opacity:${n.op}`);
+if (n.rot) s.push(`transform:rotate(${n.rot}deg)`);
+
+const media = n.t === 'img' || n.t === 'video' || n.t === 'iframe';
+if (media) {
+  s.push(`aspect-ratio:${n.w}/${n.h}`);
+  if (!n.abs) s.push('height:auto');
+  if (n.fit && n.fit !== 'fill') s.push(`object-fit:${n.fit}`);
+  if (n.pos && n.pos !== '50% 50%') s.push(`object-position:${n.pos}`);
+}
+const style = s.join(';');
+const reveal = n.reveal ? '' : undefined;
+const Tag = n.href ? 'a' : 'div';
+const linkAttrs = n.href
+  ? { href: n.href, ...(n.href.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {}) }
+  : {};
+const me = { w: n.w, h: n.h };
+// YouTube (Framer's YouTube component): keep it muted, looping and lazy
+const yt = n.t === 'iframe' && /youtube\.com\/embed/.test(n.src || '');
+---
+{n.t === 'accordion' ? (
+  <div class="cs-acc" style={style} data-reveal={reveal}>
+    {n.items.map((it: any, i: number) => (
+      <div class:list={['cs-acc-item', { on: i === 0 }]}>
+        <button type="button" class="cs-acc-btn" aria-expanded={i === 0 ? 'true' : 'false'}><span class="cs-acc-dot"></span><h5>{it.title}</h5></button>
+        <div class="cs-acc-panel"><div><p>{it.desc}</p></div></div>
+      </div>
+    ))}
+  </div>
+) : n.t === 'text' ? (
+  <div class="cs-text" id={n.id} style={style} data-reveal={reveal} set:html={n.html} />
+) : n.t === 'img' ? (
+  <img class="cs-media" id={n.id} src={n.src} alt="" loading="lazy" decoding="async" style={style} data-reveal={reveal} />
+) : n.t === 'video' ? (
+  <video class="cs-media" id={n.id} src={n.src} muted loop playsinline preload="metadata" data-autoplay
+         controls={n.src?.includes('fTGYGLnMeYOZ1Ebsc4zRhdHt5M') ? true : undefined} style={style} data-reveal={reveal}></video>
+) : n.t === 'iframe' ? (
+  <iframe class="cs-media" id={n.id} src={n.src} title={yt ? 'YouTube video' : 'Embedded content'} loading="lazy"
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen style={`${style};border:0`}></iframe>
+) : (
+  <Tag class:list={['cs-box', { 'cs-stack': n.stack, 'cs-btn': n.btn }]} id={n.id} style={style} data-reveal={reveal} {...linkAttrs}>
+    {(n.kids ?? []).map((k: any) => <Self node={k} inRow={isRow} parent={me} />)}
+  </Tag>
+)}
+
+<style is:global>
+  .cs-acc { display:flex; flex-direction:column; align-items:flex-start; }
+  .cs-acc-item { width:100%; }
+  .cs-acc-btn { all:unset; cursor:pointer; display:flex; align-items:center; height:38px; gap:8px; }
+  .cs-acc-btn h5 { margin:0; font-family:var(--mono); font-size:14px; line-height:21px; font-weight:400; color:#b8b8b8;
+    transform:translateX(-31px); transition:transform var(--dur,.45s) var(--spring-1s,ease), color .2s; }
+  .cs-acc-dot { width:7px; height:7px; margin:8px; border-radius:50%; background:rgb(88,204,2); opacity:0; transition:opacity .2s; }
+  .cs-acc-btn:hover h5 { color:#000; }
+  .cs-acc-item.on h5 { color:rgb(88,204,2); transform:none; }
+  .cs-acc-item.on .cs-acc-dot { opacity:1; }
+  .cs-acc-panel { display:grid; grid-template-rows:0fr; transition:grid-template-rows var(--dur,.45s) var(--spring-1s,ease); }
+  .cs-acc-panel > div { overflow:hidden; min-height:0; }
+  .cs-acc-panel p { margin:0 0 16px 31px; max-width:369px; font-family:var(--sans); font-style:italic;
+    font-size:14px; line-height:22.4px; letter-spacing:-0.28px; color:#8a8a8a; }
+  .cs-acc-item.on .cs-acc-panel { grid-template-rows:1fr; }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>('.cs-acc').forEach((acc) => {
+    acc.querySelectorAll<HTMLButtonElement>('.cs-acc-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        acc.querySelectorAll('.cs-acc-item').forEach((it) => {
+          const on = it.contains(btn);
+          it.classList.toggle('on', on);
+          it.querySelector('.cs-acc-btn')!.setAttribute('aria-expanded', String(on));
+        });
+      });
+    });
+  });
+</script>
