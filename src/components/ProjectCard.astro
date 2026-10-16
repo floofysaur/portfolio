@@ -17,8 +17,11 @@ const { project } = Astro.props;
     height: 300px;
     border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
   }
+  /* title and meta sit 8px apart, without the shared title padding */
+  h3 { padding: 0; line-height: 24px; margin-bottom: 8px; }
+  .t-meta { line-height: 17px; }
   img {
     width: 100%;
     height: 100%;

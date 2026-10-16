@@ -95,14 +95,12 @@ import GalleryOverlay from './GalleryOverlay.astro';
   </div>
 </Overlay>
 
-<!-- Drink: Spotify track -->
-<Overlay id="ov-sipping" label="Currently sipping">
-  <div class="note" style="width:457px;padding:30px 43px 23px;border-radius:10px">
-    <p>Currently sipping…</p>
-    <div class="embed-clip">
-      <iframe class="embed" title="Spotify track" data-src="https://open.spotify.com/embed/track/4s5LsmjqGgpwftaPqgONLC?utm_source=generator"
-              width="371" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    </div>
+<!-- Drink: current bottle of choice, as a sticker -->
+<Overlay id="ov-sipping" label="Currently sipping" fit={[207, 595]}>
+  <img class="ov-abs" src="/images/overlays/ito-en-outline.svg" alt="" style="left:0;top:0;width:207px;height:595px" />
+  <div class="ov-abs" style="left:13px;top:7px;width:185px;height:582px;overflow:hidden">
+    <img src="/images/overlays/ito-en.png" alt="A bottle of Ito En Oi Ocha unsweetened green tea"
+         style="position:absolute;left:-144.68%;top:-9.1%;width:388.57%;height:123.72%" />
   </div>
 </Overlay>
 

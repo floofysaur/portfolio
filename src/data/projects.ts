@@ -10,16 +10,16 @@ export interface Project {
 /** Featured projects, in rows of two (order matches the live site). */
 export const projects: Project[][] = [
   [
-    { title: 'In-App Purchases @ Duolingo', meta: 'Product Design | Summer 2026', href: '/duolingo', image: '/images/projects/duolingo.webp', width: 547 },
-    { title: 'Data Loss Prevention @ RBC', meta: 'Design Engineering | Summer 2025', href: '/dlp-dashboard', image: '/images/projects/rbc.webp', width: 437 },
+    { title: 'In-App Purchases @ Duolingo', meta: 'Product Design | Summer 2026', href: '/duolingo', image: '/images/projects/duolingo.webp', width: 494 },
+    { title: 'Data Loss Prevention @ RBC', meta: 'Design Engineering | Summer 2025', href: '/dlp-dashboard', image: '/images/projects/rbc.webp', width: 494 },
   ],
   [
-    { title: 'Face Swap @ Magic Hour (YC W24)', meta: 'Product Design | March 2024', href: '/magic-hour', image: '/images/projects/magic-hour.webp', width: 437 },
-    { title: 'Furward', meta: 'Game Design | Summer 2024', href: '/furward', image: '/images/projects/furward.webp', width: 547 },
+    { title: 'Face Swap @ Magic Hour (YC W24)', meta: 'Product Design | March 2024', href: '/magic-hour', image: '/images/projects/magic-hour.webp', width: 494 },
+    { title: 'Furward: Take a Stroll as a Cat', meta: 'Game Design | Summer 2024', href: '/furward', image: '/images/projects/furward.webp', width: 494 },
   ],
   [
-    { title: 'Apricity: Gratitude Journalling', meta: 'Design + Development | In progress', href: '/apricity', image: '/images/projects/apricity.webp', width: 537 },
-    { title: 'TypeLab: Inspiring Font Discovery', meta: 'Full-stack Design | Fall 2025', href: '/type-lab', image: '/images/projects/typelab.webp', width: 447 },
+    { title: 'Apricity: Gratitude Journalling', meta: 'Design + Development | In progress', href: '/apricity', image: '/images/projects/apricity.webp', width: 494 },
+    { title: 'TypeLab: Inspiring Font Discovery', meta: 'Full-stack Design | Fall 2025', href: '/type-lab', image: '/images/projects/typelab.webp', width: 494 },
   ],
 ];
 
@@ -35,10 +35,10 @@ export interface Tidbit {
 
 export const tidbits: Tidbit[] = [
   {
-    title: 'Popcat Press',
-    description: "A small Etsy shop I've been running over the past few years…",
-    href: 'https://www.etsy.com/shop/PopcatPress',
-    thumb: { src: '/images/tidbits/popcat.webp', size: '385px', position: '-93px -46px' },
+    title: 'Underwater',
+    description: 'A home for my fish doodles :)',
+    href: 'https://underwater-ruby.vercel.app/',
+    thumb: { src: '/images/tidbits/underwater.png', size: '169px', position: '-24px -19px' },
   },
   {
     title: 'Froggy Focus',
@@ -47,21 +47,27 @@ export const tidbits: Tidbit[] = [
     thumb: { src: '/images/tidbits/froggy.png', size: '127px', position: '-4px -2px', bg: 'var(--thumb-bg)' },
   },
   {
-    title: 'Co-working & Café',
-    description: 'A small website I designed + developed',
-    href: 'https://floofysaur.github.io/apricity/',
-    thumb: { src: '/images/tidbits/cafe.png', size: '111px', position: '4px 4px', bg: 'var(--thumb-bg)' },
-  },
-  {
     title: 'Kirple',
     description: 'AI-powered creature game where your interactions unlock animated memories',
     overlay: 'ov-kirple',
     thumb: { src: '/images/tidbits/kirple.webp', size: '512px', position: '-135px -69px' },
   },
   {
+    title: 'Popcat Press',
+    description: "A small Etsy shop I've been running over the past few years…",
+    href: 'https://www.etsy.com/shop/PopcatPress',
+    thumb: { src: '/images/tidbits/popcat.webp', size: '385px', position: '-93px -46px' },
+  },
+  {
     title: 'Market-Bench @ AfterQuery',
     description: 'An AI benchmark to evaluate LLMs',
     href: 'https://www.marketbench.ai/',
     thumb: { src: '/images/tidbits/afterquery.png', size: 'cover', position: 'center' },
+  },
+  {
+    title: 'Co-working & Café',
+    description: 'A small website I designed + developed',
+    href: 'https://floofysaur.github.io/apricity/',
+    thumb: { src: '/images/tidbits/cafe.png', size: '111px', position: '4px 4px', bg: 'var(--thumb-bg)' },
   },
 ];
