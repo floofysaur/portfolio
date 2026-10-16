@@ -25,6 +25,8 @@ else if (n.abs && parent) {
     `top:${((y / parent.h) * 100).toFixed(3)}%`,
     `width:${((n.w / parent.w) * 100).toFixed(3)}%`,
     `height:${((n.h / parent.h) * 100).toFixed(3)}%`,
+    // cropped images can be larger than their frame
+    'max-width:none',
   );
 } else if (n.t === 'text' && n.single && !n.fill) {
   s.push(inRow ? 'flex:0 0 auto' : 'width:auto');
@@ -47,7 +49,8 @@ if (n.t === 'box' && !n.contents) {
     if (inRow && parent && n.h >= parent.h - 1) s.push('align-self:stretch');
     else s.push(`height:${n.h}px;flex-shrink:0`);
   }
-  if (n.frame || n.kids?.some((k: any) => k.abs)) s.push('position:relative');
+  // positioned boxes are already a containing block for their own positioned kids
+  if ((n.frame || n.kids?.some((k: any) => k.abs)) && !(n.abs && parent)) s.push('position:relative');
   if (n.br && (n.frame || n.clip)) s.push('overflow:hidden');
   if (n.bgi) s.push(`background-image:url('${n.bgi}');background-size:cover;background-position:center`);
 }
@@ -57,6 +60,7 @@ if (n.btn) s.push(`--btn-bd:${n.btn.bd};--btn-fg:${n.btn.fg};--btn-hbg:${n.btn.h
 if (n.sh) s.push(`box-shadow:${n.sh}`);
 if (n.bd) for (const [side, v] of Object.entries(n.bd)) s.push(`border-${side}:${v}`);
 if (n.op) s.push(`opacity:${n.op}`);
+if (n.blend) s.push(`mix-blend-mode:${n.blend}`);
 if (n.rot) s.push(`transform:rotate(${n.rot}deg)`);
 
 const media = n.t === 'img' || n.t === 'video' || n.t === 'iframe';
